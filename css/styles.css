@@ -218,6 +218,25 @@ main {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
+.step-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex: 1 1 200px;
+    min-width: 200px;
+    transition: all 0.3s ease;
+}
+
+.step-card-link:hover .step-card {
+    box-shadow: 0 12px 25px rgba(0, 123, 255, 0.25);
+    transform: translateY(-8px);
+    background-color: #f0f7ff;
+}
+
+.step-card-link:active .step-card {
+    transform: translateY(-4px);
+}
+
 /* --- FEATURES GRID (index.html) --- */
 .features-grid {
     padding: 50px 5%;
