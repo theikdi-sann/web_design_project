@@ -2,27 +2,72 @@
 let currentLevelId = 1;
 
 // DOM Elements
-const levelBtns = document.querySelectorAll('.level-btn');
-const levelTitle = document.getElementById('level-title');
-const levelDesc = document.getElementById('level-desc');
+const missionPanel = document.getElementById('mission-panel');
 const gameBoard = document.getElementById('game-board');
 const cssInput = document.getElementById('css-input');
 const engageBtn = document.getElementById('engage-btn');
 const messageLog = document.getElementById('message-log');
-const wrapperPre = document.querySelector('.code-area pre:first-child');
-const closingPre = document.querySelector('.code-area pre:last-child');
+const wrapperPre = document.getElementById('wrapper-pre');
+
+let levelBtns = [];
+let levelTitle, levelDesc, hintText;
+
+// Generate Mission Panel dynamically
+function generateMissionPanel() {
+    missionPanel.innerHTML = '';
+
+    // Create heading
+    const heading = document.createElement('h2');
+    heading.innerHTML = '<i class="fas fa-user-astronaut"></i> Mission Log';
+    missionPanel.appendChild(heading);
+
+    // Create level selector buttons
+    const levelSelector = document.createElement('div');
+    levelSelector.className = 'level-selector';
+
+    data.gameLevels.forEach(level => {
+        const btn = document.createElement('button');
+        btn.className = `level-btn ${level.id === 1 ? 'active' : ''}`;
+        btn.dataset.level = level.id;
+        btn.textContent = level.id;
+        btn.addEventListener('click', (e) => {
+            loadLevel(parseInt(e.target.dataset.level));
+        });
+        levelSelector.appendChild(btn);
+    });
+
+    missionPanel.appendChild(levelSelector);
+
+    // Create mission instructions
+    const instructions = document.createElement('div');
+    instructions.className = 'mission-instructions';
+
+    levelTitle = document.createElement('h3');
+    levelTitle.id = 'level-title';
+    instructions.appendChild(levelTitle);
+
+    levelDesc = document.createElement('p');
+    levelDesc.id = 'level-desc';
+    instructions.appendChild(levelDesc);
+
+    const hintBox = document.createElement('div');
+    hintBox.className = 'hint-box';
+    hintBox.innerHTML = '<i class="fas fa-lightbulb"></i> ';
+    hintText = document.createElement('span');
+    hintText.id = 'hint-text';
+    hintBox.appendChild(hintText);
+    instructions.appendChild(hintBox);
+
+    missionPanel.appendChild(instructions);
+
+    // Cache level buttons for later use
+    levelBtns = document.querySelectorAll('.level-btn');
+}
 
 // Init
 function initGame() {
+    generateMissionPanel();
     loadLevel(1);
-
-    levelBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const level = parseInt(e.target.dataset.level);
-            loadLevel(level);
-        });
-    });
-
     engageBtn.addEventListener('click', checkSolution);
 }
 
@@ -30,9 +75,15 @@ function loadLevel(id) {
     currentLevelId = id;
     const level = data.gameLevels.find(l => l.id === id);
 
+    if (!level) {
+        console.error(`Level ${id} not found`);
+        return;
+    }
+
     // Update Sidebar
     levelTitle.textContent = level.title;
     levelDesc.textContent = level.description;
+    hintText.textContent = `Hint: ${level.hint}`;
 
     // Update Buttons
     levelBtns.forEach(btn => {
@@ -45,11 +96,7 @@ function loadLevel(id) {
     messageLog.className = 'message-log';
 
     // Update Editor Context
-    if (level.isChildLevel) {
-        wrapperPre.textContent = `${level.wrapperSelector} {`;
-    } else {
-        wrapperPre.textContent = `${level.wrapperSelector} {`;
-    }
+    wrapperPre.textContent = `${level.wrapperSelector} {`;
 
     // Setup Board
     renderBoard(level);
@@ -60,13 +107,19 @@ function renderBoard(level) {
     gameBoard.className = 'game-board'; // Reset classes
     gameBoard.innerHTML = ''; // Clear ships
 
-    // Apply base styles for the level (so the starting state is correct)
+    // Apply base styles for the level
     Object.assign(gameBoard.style, level.containerStyles);
 
     // Create Ships
     for (let i = 0; i < level.ships; i++) {
         const ship = document.createElement('div');
         ship.className = 'ship';
+
+        // Add ship classes if defined (for grid areas)
+        if (level.shipClasses && level.shipClasses[i]) {
+            ship.classList.add(level.shipClasses[i]);
+        }
+
         ship.innerHTML = '<i class="fas fa-space-shuttle"></i>';
 
         // Special styling for Level 5 Flagship

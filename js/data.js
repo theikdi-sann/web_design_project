@@ -546,7 +546,90 @@ gameLevels: [
         ships: 5,
         validProps: ['grid-column'],
         validValues: ['span 2', '1 / 3', '1/3']
-    }
+    },
+
+    {
+        id: 6,
+        type: 'flex',
+        title: 'Level 6: Containment Bay Shift',
+        description: 'The docking bay has rotated! Re-orient the ships to line up vertically, from top to bottom.',
+        hint: 'Change the **main axis** direction using `flex-direction`',
+        targetCSS: 'flex-direction: column;',
+        containerStyles: { display: 'flex', height: '100%', flexDirection: 'row' }, // Initial non-target style
+        wrapperSelector: '.hangar-bay',
+        ships: 3,
+        validProps: ['flex-direction'],
+        validValues: ['column']
+    },
+    {
+        id: 7,
+        type: 'flex',
+        title: 'Level 7: Emergency Egress',
+        description: 'The launch tubes are narrow. Ensure that all ships drop to a new line when the bay is full.',
+        hint: 'Use `flex-wrap` to allow items to wrap onto multiple lines.',
+        targetCSS: 'flex-wrap: wrap;',
+        containerStyles: { display: 'flex', width: '50%', flexWrap: 'nowrap' }, // Initial non-target style
+        wrapperSelector: '.hangar-bay',
+        ships: 5,
+        validProps: ['flex-wrap'],
+        validValues: ['wrap']
+    },
+    {
+        id: 8,
+        type: 'flex',
+        title: 'Level 8: Power Core Alignment',
+        description: 'With multiple rows of ships, we need to center **all rows** vertically within the bay.',
+        hint: 'When items wrap, use `align-content` to align the lines/rows themselves (cross axis alignment).',
+        targetCSS: 'align-content: center;',
+        containerStyles: { 
+            display: 'flex', 
+            height: '100%', 
+            flexWrap: 'wrap', 
+            alignContent: 'flex-start' // Initial non-target style
+        },
+        wrapperSelector: '.hangar-bay',
+        ships: 6,
+        validProps: ['align-content'],
+        validValues: ['center']
+    },
+    {
+        id: 9,
+        type: 'grid',
+        title: 'Level 9: Sector Map Template',
+        description: 'Define the layout for our monitoring station: Header, Sidebar, Main View, and Footer. Use **grid areas**.',
+        hint: 'Define the structure with `grid-template-areas`. The ships will automatically assign to the areas based on their class names (e.g., `.ship-header`).',
+        targetCSS: 'grid-template-areas: "header header header" "sidebar main main" "footer footer footer";',
+        containerStyles: { 
+            display: 'grid', 
+            gridTemplateColumns: '1fr 2fr 2fr', 
+            height: '100%',
+            gridGap: '5px' 
+        },
+        wrapperSelector: '.sector-grid',
+        ships: 4, // Header, Sidebar, Main, Footer
+        shipClasses: ['ship-header', 'ship-sidebar', 'ship-main', 'ship-footer'], // Define these in HTML for validation
+        validProps: ['grid-template-areas'],
+        validValues: ['"header header header" "sidebar main main" "footer footer footer"']
+    },
+    {
+        id: 10,
+        type: 'grid',
+        title: 'Level 10: Ship Re-ordering',
+        description: 'The second ship (`.ship:nth-child(2)`) is a high-priority cargo vessel. It must move to the **last row** (row line 3), but stay in its current column (column line 2).',
+        hint: 'Target the ship using `grid-row-start` or `grid-row` to set its position.',
+        targetCSS: 'grid-row-start: 3;',
+        containerStyles: {
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateRows: 'repeat(3, 1fr)',
+            gridGap: '10px'
+        },
+        wrapperSelector: '.ship:nth-child(2)',
+        isChildLevel: true, 
+        ships: 6,
+        validProps: ['grid-row-start', 'grid-row'],
+        validValues: ['3', '3 / span 1']
+    },
 ],
 
 };
