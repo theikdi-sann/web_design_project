@@ -1,0 +1,302 @@
+/* --- Sci-Fi Game Theme --- */
+:root {
+    --space-bg: #0b0d17;
+    --panel-bg: #15192b;
+    --border-color: #2a2f45;
+    --neon-blue: #00f3ff;
+    --neon-pink: #ff00ff;
+    --neon-green: #00ff9d;
+    --text-main: #d0d6e0;
+    --code-font: 'Fira Code', monospace;
+}
+
+.game-body {
+    background-color: var(--space-bg);
+    color: var(--text-main);
+    overflow-x: hidden;
+}
+
+.game-main {
+    padding-top: 80px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-layout {
+    display: flex;
+    width: 95%;
+    max-width: 1400px;
+    height: 85vh;
+    gap: 20px;
+    border: 1px solid var(--border-color);
+    background: rgba(21, 25, 43, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 50px rgba(0, 243, 255, 0.1);
+}
+
+/* --- LEFT PANEL: MISSION --- */
+.mission-panel {
+    flex: 0 0 250px;
+    background: var(--panel-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.mission-panel h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--neon-blue);
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.level-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.level-btn {
+    width: 35px;
+    height: 35px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-main);
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: var(--code-font);
+    transition: all 0.2s;
+}
+
+.level-btn:hover {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+}
+
+.level-btn.active {
+    background: var(--neon-blue);
+    color: var(--space-bg);
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+}
+
+.mission-instructions h3 {
+    color: white;
+    margin-bottom: 15px;
+}
+
+.hint-box {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(0, 243, 255, 0.05);
+    border-left: 3px solid var(--neon-blue);
+    font-size: 0.9em;
+}
+
+/* --- CENTER PANEL: GAME BOARD --- */
+.game-board-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: radial-gradient(circle at center, #1a1e32 0%, #0b0d17 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Starfield effect */
+.game-board-container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+        radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
+        radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
+    background-size: 550px 550px, 350px 350px, 250px 250px; 
+    background-position: 0 0, 40px 60px, 130px 270px;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--code-font);
+    color: var(--secondary-color);
+    font-size: 0.8em;
+    margin-bottom: 10px;
+    z-index: 1;
+}
+
+.status-indicator {
+    color: var(--neon-green);
+}
+
+.game-board {
+    flex: 1;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    position: relative;
+    z-index: 1;
+    /* This needs to be set dynamically by JS based on level type, 
+       but we default to flex for safety */
+    display: flex; 
+}
+
+/* Game Pieces */
+.ship {
+    width: 60px;
+    height: 60px;
+    color: var(--ship-color, #00d2ff);
+    font-size: 2.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(0 0 10px var(--ship-color));
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 10;
+}
+
+/* Target zones (where ships need to go) */
+.target-zone {
+    position: absolute;
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.05);
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* Grid specific styles */
+.grid-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: grid;
+    /* grid-template will be set by JS */
+    z-index: 2;
+    pointer-events: none;
+}
+
+.grid-cell {
+    border: 1px dotted rgba(255, 255, 255, 0.1);
+}
+
+/* --- RIGHT PANEL: TERMINAL --- */
+.command-interface {
+    flex: 0 0 300px;
+    background: #0f111a;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--border-color);
+}
+
+.terminal-header {
+    padding: 10px 15px;
+    background: #1a1e2e;
+    font-family: var(--code-font);
+    font-size: 0.9em;
+    color: #8892b0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.code-editor {
+    flex: 1;
+    display: flex;
+    padding: 15px 0;
+    font-family: var(--code-font);
+    font-size: 14px;
+}
+
+.line-numbers {
+    padding: 0 15px;
+    color: #4a5160;
+    text-align: right;
+    border-right: 1px solid #2a2f45;
+    user-select: none;
+}
+
+.code-area {
+    flex: 1;
+    padding: 0 15px;
+}
+
+.code-area pre {
+    color: #8892b0;
+    margin: 0;
+}
+
+#css-input {
+    width: 100%;
+    min-height: 100px;
+    background: transparent;
+    border: none;
+    color: var(--neon-green);
+    font-family: var(--code-font);
+    font-size: 14px;
+    outline: none;
+    resize: none;
+    padding: 0;
+    line-height: 1.5;
+}
+
+.engage-btn {
+    padding: 15px;
+    background: var(--neon-blue);
+    border: none;
+    color: #000;
+    font-family: var(--heading-font);
+    font-weight: 800;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 1px;
+}
+
+.engage-btn:hover {
+    background: white;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.message-log {
+    height: 100px;
+    padding: 15px;
+    background: #050608;
+    color: var(--fail-color);
+    font-family: var(--code-font);
+    font-size: 0.9em;
+    border-top: 1px solid var(--border-color);
+    overflow-y: auto;
+}
+
+.success-msg {
+    color: var(--success-color);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+    .game-layout {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .mission-panel, .command-interface {
+        flex: none;
+        width: 100%;
+    }
+    
+    .game-board-container {
+        min-height: 400px;
+    }
+}
