@@ -39,9 +39,12 @@
 
     <main class="page-content quiz-page">
         <section class="quiz-container">
-            <h1>Test Your JavaScript Knowledge!</h1>
+            <h1 id="quiz-heading" class="hidden">Test Your Web Design Knowledge!</h1>
             <div id="quiz-area">
-                <p class="quiz-loading">Loading quiz...</p>
+                <div class="quiz-loading-content">
+                    <div class="spinner"></div>
+                    <p class="quiz-loading">Loading quiz...</p>
+                </div>
             </div>
             <button id="submit-quiz" class="cta-button hidden">
                 Submit Answers
@@ -65,7 +68,8 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script type="module" src="js/script.js"></script>
+    <script src="js/quiz.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/data.js"></script>
 </body>
-
 </html>
