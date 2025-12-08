@@ -1,0 +1,518 @@
+/* --- Global Styles & Reset --- */
+:root {
+    /* Color Variables */
+    --primary-color: #007bff; /* Blue for action */
+    --secondary-color: #6c757d;
+    --light-bg: #f8f9fa;
+    --dark-text: #343a40;
+    --success-color: #28a745; /* Green for success */
+    --fail-color: #dc3545; /* Red for failure/errors */
+    
+    /* Font Variables (Requires links in HTML <head>) */
+    --heading-font: 'Montserrat', sans-serif;
+    --body-font: 'Open Sans', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--body-font); 
+    color: var(--dark-text);
+    background-color: white;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    font-family: var(--heading-font);
+    font-weight: 800;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+main {
+    padding-top: 80px; /* Space for the fixed header */
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- HEADER & NAVIGATION (FLEXBOX) --- */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* Updated: Spacing out links evenly on desktop */
+.desktop-nav {
+    display: flex; 
+    flex-grow: 0.3; 
+    justify-content: space-around; 
+    max-width: 400px; 
+}
+
+.desktop-nav a {
+    margin-left: 0; /* space-around handles spacing */
+    padding: 5px 0;
+    color: var(--dark-text);
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s, border-color 0.3s, transform 0.2s; 
+}
+.desktop-nav a:focus,
+.mobile-nav a:focus {
+    outline: none; 
+    box-shadow: none;
+}
+.desktop-nav a:hover {
+    color: var(--secondary-color);
+    transform: translateY(-1px);
+}
+
+.desktop-nav a.active {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: 600;
+    transform: translateY(-2px);
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--dark-text);
+}
+
+.mobile-nav {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background-color: var(--dark-text);
+    padding: 10px 0;
+    z-index: 999;
+    flex-direction: column;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-nav.open {
+    display: flex;
+}
+
+.mobile-nav a {
+    color: white;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.2s;
+    width: 100%;
+}
+
+.mobile-nav a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mobile-nav a.active {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+}
+
+
+/* --- HERO SECTION (index.html) --- */
+.hero-section {
+    background: var(--light-bg);
+    padding: 100px 5% 80px;
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 3em;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.hero-content p {
+    font-size: 1.2em;
+    max-width: 700px;
+    margin: 0 auto 30px;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--success-color);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #1e7e34;
+}
+
+/* --- HOW IT WORKS SECTION (FLEXBOX) --- */
+.how-it-works {
+    padding: 50px 5%;
+    text-align: center;
+    background-color: white;
+}
+
+.how-it-works h2 {
+    margin-bottom: 40px;
+    font-size: 2em;
+}
+
+.steps-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.step-card {
+    flex: 1 1 200px; 
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    transition: box-shadow 0.3s;
+    min-width: 200px;
+}
+
+.step-card i {
+    font-size: 2.5em;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.step-card h3 {
+    margin: 10px 0;
+    color: var(--dark-text);
+}
+
+.step-card:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* --- FEATURES GRID (index.html) --- */
+.features-grid {
+    padding: 50px 5%;
+    text-align: center;
+}
+
+.features-grid h2 {
+    margin-bottom: 30px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 30px;
+}
+
+.feature-card {
+    background-color: var(--light-bg);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.feature-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3);
+    cursor: pointer;
+}
+
+/* --- TESTIMONIAL SECTION --- */
+.testimonial-section {
+    padding: 60px 5%;
+    background-color: var(--light-bg);
+    text-align: center;
+}
+
+.testimonial-section h2 {
+    margin-bottom: 40px;
+}
+
+.testimonial-card {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: white;
+    border-left: 5px solid var(--primary-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-quote {
+    font-size: 1.15em;
+    font-style: italic;
+    color: var(--dark-text);
+    margin-bottom: 15px;
+}
+
+.testimonial-author {
+    font-weight: bold;
+    color: var(--secondary-color);
+    display: block;
+    margin-top: 10px;
+}
+
+/* --- FINAL CALL TO ACTION --- */
+.final-cta {
+    padding: 80px 5%;
+    text-align: center;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.final-cta h2 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.final-cta p {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+}
+
+.large-cta {
+    padding: 15px 40px;
+    font-size: 1.1em;
+}
+
+
+/* --- LESSONS INDEX (lessons.html) --- */
+.lesson-categories-grid {
+    padding: 50px 5%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 30px;
+}
+
+.category-card {
+    background-color: var(--light-bg);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.category-card h2 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.category-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.category-card li {
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+}
+
+.category-card li a {
+    color: var(--dark-text);
+    display: block;
+}
+
+
+/* --- LESSON CONTENT DISPLAY AREA STYLES --- */
+#lesson-content-display {
+    padding: 40px 5%;
+    max-width: 900px;
+    margin: 30px auto;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+#lesson-content-display h2 {
+    color: var(--primary-color);
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+#lesson-content-display p {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+#close-lesson-btn {
+    margin-top: 30px;
+}
+
+
+/* --- QUIZ PAGE STYLES (quiz.html) --- */
+.quiz-container {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-question {
+    margin-bottom: 30px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: var(--light-bg);
+}
+
+.quiz-question h3 {
+    margin-top: 0;
+    color: var(--dark-text);
+}
+
+.answer-option {
+    display: block;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.answer-option:hover {
+    background-color: #e9ecef;
+}
+
+.answer-option input[type="radio"] {
+    margin-right: 10px;
+}
+
+#submit-quiz {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 15px;
+}
+
+/* Results Section */
+#quiz-results {
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+}
+
+#quiz-results h2 {
+    color: var(--primary-color);
+}
+
+/* --- QUIZ FEEDBACK STYLES --- */
+.correct-answer {
+    background-color: #d4edda !important;
+    border-color: var(--success-color) !important;
+    font-weight: 600;
+}
+
+.incorrect-answer {
+    background-color: #f8d7da !important;
+    border-color: var(--fail-color) !important;
+    font-weight: 600;
+}
+
+.quiz-question input[type="radio"]:disabled + .answer-option:hover {
+    background-color: #f9f9f9;
+    cursor: default;
+}
+
+
+/* --- SCROLL-TO-TOP BUTTON STYLES --- */
+#scrollToTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 99;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.2em;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+#scrollToTopBtn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* --- FOOTER --- */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--dark-text);
+    color: white;
+}
+
+/* --- MEDIA QUERIES (RESPONSIVENESS) --- */
+@media (max-width: 768px) {
+    /* Navigation Adjustments */
+    .desktop-nav {
+        display: none;
+    }
+    .menu-toggle {
+        display: block;
+    }
+
+    /* Grid Adjustments */
+    .grid-container,
+    .lesson-categories-grid {
+        grid-template-columns: 1fr; 
+    }
+    
+    .steps-container {
+        justify-content: center;
+    }
+    .step-card {
+        flex: 1 1 100%;
+        margin-bottom: 20px;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.5em;
+    }
+    
+    .final-cta h2 {
+        font-size: 2em;
+    }
+}

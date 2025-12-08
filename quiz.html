@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeQuest Academy - JS Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo"><i class="fas fa-graduation-cap"></i> CodeQuest</div>
+        <nav class="desktop-nav">
+            <a href="index.html">Home</a>
+            <a href="lessons.html">Lessons</a>
+            <a href="quiz.html" class="active">Quiz</a>
+        </nav>
+        <button class="menu-toggle" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+    </header>
+    <nav class="mobile-nav">
+        <a href="index.html">Home</a>
+        <a href="lessons.html">Lessons</a>
+        <a href="quiz.html" class="active">Quiz</a>
+    </nav>
+
+    <main class="page-content quiz-page">
+        <section class="quiz-container">
+            <h1>Test Your JavaScript Knowledge!</h1>
+            <div id="quiz-area">
+                <p class="quiz-loading">Loading quiz...</p>
+            </div>
+            <button id="submit-quiz" class="cta-button hidden">Submit Answers</button>
+
+            <div id="quiz-results" class="hidden">
+                <h2>Quiz Results</h2>
+                <p id="score-text"></p>
+                <button id="retake-quiz" class="cta-button">Retake Quiz</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 CodeQuest Academy. Build your future.</p>
+    </footer>
+
+    <button id="scrollToTopBtn" title="Go to top" class="hidden">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

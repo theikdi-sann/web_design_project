@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeQuest Academy - Lessons</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo"><i class="fas fa-graduation-cap"></i> CodeQuest</div>
+        <nav class="desktop-nav">
+            <a href="index.html">Home</a>
+            <a href="lessons.html" class="active">Lessons</a>
+            <a href="quiz.html">Quiz</a>
+        </nav>
+        <button class="menu-toggle" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+    </header>
+    <nav class="mobile-nav">
+        <a href="index.html">Home</a>
+        <a href="lessons.html" class="active">Lessons</a>
+        <a href="quiz.html">Quiz</a>
+    </nav>
+
+    <main class="page-content">
+        <section class="hero-section" style="padding: 100px 5% 40px;">
+            <div class="hero-content">
+                <h1>All Learning Modules</h1>
+                <p>Select a category below to dive into the lessons and tutorials.</p>
+            </div>
+        </section>
+
+        <section class="lesson-categories-grid">
+            
+            <div class="category-card">
+                <h2>HTML Basics</h2>
+                <ul class="lesson-list">
+                    <li><a href="#">The Document Structure</a></li>
+                    <li><a href="#">Forms and Inputs</a></li>
+                    <li><a href="#">Semantic Tags</a></li>
+                </ul>
+            </div>
+
+            <div class="category-card">
+                <h2>CSS Fundamentals</h2>
+                <ul class="lesson-list">
+                    <li><a href="#">Selectors and Specificity</a></li>
+                    <li><a href="#">The Box Model</a></li>
+                    <li><a href="#">Media Queries (Responsiveness)</a></li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <h2>JavaScript</h2>
+                <ul class="lesson-list">
+                    <li><a href="#">Variables and Data Types</a></li>
+                    <li><a href="#">DOM Manipulation</a></li>
+                    <li><a href="#">Functions and Events</a></li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <h2>Layout Techniques</h2>
+                <ul class="lesson-list">
+                    <li><a href="#">Flexbox Mastery</a></li>
+                    <li><a href="#">CSS Grid for Pages</a></li>
+                    <li><a href="#">Z-Index and Stacking Contexts</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="lesson-content-display" class="hidden">
+            <h2 id="lesson-title"></h2>
+            <div id="lesson-text">
+                </div>
+            <button id="close-lesson-btn" class="cta-button">Back to Lessons</button>
+        </section>
+        
+    </main>
+
+    <footer>
+        <p>&copy; 2025 CodeQuest Academy. Build your future.</p>
+    </footer>
+
+    <button id="scrollToTopBtn" title="Go to top" class="hidden">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <script src="js/script.js"></script>
+</body>
+</html>

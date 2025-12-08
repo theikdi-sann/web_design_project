@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeQuest Academy - Learn Web Dev</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo"><i class="fas fa-graduation-cap"></i> CodeQuest</div>
+        <nav class="desktop-nav">
+            <a href="index.html" class="active">Home</a>
+            <a href="lessons.html">Lessons</a>
+            <a href="quiz.html">Quiz</a>
+        </nav>
+        <button class="menu-toggle" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+    </header>
+    <nav class="mobile-nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="lessons.html">Lessons</a>
+        <a href="quiz.html">Quiz</a>
+    </nav>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Master HTML, CSS, & JavaScript.</h1>
+                <p>Start your journey to become a front-end developer with interactive lessons and practical quizzes.</p>
+                <a href="#how-it-works-anchor" class="cta-button">Start Learning Now</a>
+            </div>
+        </section>
+
+        <section class="how-it-works" id="how-it-works-anchor">
+            <h2>Your Path to Code Mastery</h2>
+            <div class="steps-container">
+                <div class="step-card">
+                    <i class="fas fa-search"></i>
+                    <h3>Explore Lessons</h3>
+                    <p>Browse our categorized modules in HTML, CSS, and JavaScript.</p>
+                </div>
+                <div class="step-card">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Deep Dive & Practice</h3>
+                    <p>Read detailed tutorials and follow along with code examples.</p>
+                </div>
+                <div class="step-card">
+                    <i class="fas fa-pencil-alt"></i>
+                    <h3>Test Your Skills</h3>
+                    <p>Take the interactive quizzes to solidify your understanding.</p>
+                </div>
+                <div class="step-card">
+                    <i class="fas fa-trophy"></i>
+                    <h3>Achieve Mastery</h3>
+                    <p>Track your progress and move on to advanced topics.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="features-grid">
+            <h2>Featured Learning Tracks</h2>
+            <div class="grid-container">
+                <div class="feature-card">
+                    <h3><i class="fas fa-file-code"></i> HTML5 Essentials</h3>
+                    <p>Learn the fundamental structure of all web pages.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-paint-brush"></i> CSS Layouts (Flex & Grid)</h3>
+                    <p>Design beautiful, responsive websites with modern CSS.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><i class="fas fa-cogs"></i> Vanilla JS Fundamentals</h3>
+                    <p>Add interactivity and dynamic behavior to your sites.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonial-section">
+            <h2>What Our Learners Say</h2>
+            <div class="testimonial-card">
+                <blockquote class="testimonial-quote">
+                    "CodeQuest Academy simplified CSS Grid and Flexbox for me. The quiz was challenging but fair, and now I feel confident building responsive layouts!"
+                </blockquote>
+                <p class="testimonial-author">- Alex M., Frontend Student</p>
+            </div>
+        </section>
+
+        <section class="final-cta">
+            <h2>Ready to Start Your Code Quest?</h2>
+            <p>Join hundreds of aspiring developers mastering the fundamentals of modern web development.</p>
+            <a href="lessons.html" class="cta-button large-cta">View All Lessons</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 CodeQuest Academy. Build your future.</p>
+    </footer>
+
+    <button id="scrollToTopBtn" title="Go to top" class="hidden">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
