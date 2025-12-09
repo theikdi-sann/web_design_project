@@ -144,13 +144,13 @@ function generateMissionPanel() {
     levelDesc.id = 'level-desc';
     instructions.appendChild(levelDesc);
 
-    // const hintBox = document.createElement('div');
-    // hintBox.className = 'hint-box';
-    // hintBox.innerHTML = '<i class="fas fa-lightbulb"></i> ';
-    // hintText = document.createElement('span');
-    // hintText.id = 'hint-text';
-    // hintBox.appendChild(hintText);
-    // instructions.appendChild(hintBox);
+    const hintBox = document.createElement('div');
+    hintBox.className = 'hint-box';
+    hintBox.innerHTML = '<i class="fas fa-lightbulb"></i> ';
+    hintText = document.createElement('span');
+    hintText.id = 'hint-text';
+    hintBox.appendChild(hintText);
+    instructions.appendChild(hintBox);
 
     missionPanel.appendChild(instructions);
 
