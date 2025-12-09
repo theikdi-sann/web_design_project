@@ -116,12 +116,15 @@
 .game-board-container::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-image: 
-        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
-        radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
-        radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
-    background-size: 550px 550px, 350px 350px, 250px 250px; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(white, rgba(255, 255, 255, .2) 2px, transparent 3px),
+        radial-gradient(white, rgba(255, 255, 255, .15) 1px, transparent 2px),
+        radial-gradient(white, rgba(255, 255, 255, .1) 2px, transparent 3px);
+    background-size: 550px 550px, 350px 350px, 250px 250px;
     background-position: 0 0, 40px 60px, 130px 270px;
     opacity: 0.3;
     z-index: 0;
@@ -146,11 +149,22 @@
     border: 2px solid rgba(255, 255, 255, 0.1);
     background: rgba(0, 0, 0, 0.3);
     border-radius: 8px;
-    position: relative;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
     z-index: 1;
+    width: 100%;
+    height: 100%;
     /* This needs to be set dynamically by JS based on level type, 
        but we default to flex for safety */
-    display: flex; 
+    display: flex;
+}
+
+.board-wrapper {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    /* Ensure it takes available space but doesn't overflow weirdly */
+    min-height: 0;
 }
 
 /* Game Pieces */
@@ -169,11 +183,14 @@
 
 /* Target zones (where ships need to go) */
 .target-zone {
-    position: absolute;
+    position: relative;
+    /* Changed from absolute to allow Flexbox control */
     border: 2px dashed rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    /* Match ship width (was 70px, adjusted for tight fit) */
+    height: 60px;
+    /* Match ship height */
     background: rgba(255, 255, 255, 0.05);
     z-index: 5;
     pointer-events: none;
@@ -182,7 +199,10 @@
 /* Grid specific styles */
 .grid-overlay {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: grid;
     /* grid-template will be set by JS */
     z-index: 2;
@@ -290,13 +310,127 @@
         flex-direction: column;
         height: auto;
     }
-    
-    .mission-panel, .command-interface {
+
+    .mission-panel,
+    .command-interface {
         flex: none;
         width: 100%;
     }
-    
+
     .game-board-container {
         min-height: 400px;
     }
+}
+
+/* --- IMMERSION UPGRADES --- */
+
+/* CRT Monitor Scanline Effect for the whole game */
+.game-layout::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+    /* Let clicks pass through */
+    z-index: 99;
+    opacity: 0.4;
+}
+
+/* Make the ships pulse slightly while waiting */
+@keyframes enginePulse {
+    0% {
+        filter: drop-shadow(0 0 5px var(--ship-color));
+        transform: translateY(0);
+    }
+
+    50% {
+        filter: drop-shadow(0 0 15px var(--ship-color));
+        transform: translateY(-3px);
+    }
+
+    100% {
+        filter: drop-shadow(0 0 5px var(--ship-color));
+        transform: translateY(0);
+    }
+}
+
+.ship {
+    /* animation: enginePulse 3s infinite ease-in-out; */
+    animation: none;
+}
+
+/* Success Message: Make it look like a Hologram */
+.success-msg {
+    color: var(--neon-green);
+    text-shadow: 0 0 10px var(--neon-green);
+    border-left: 3px solid var(--neon-green);
+}
+
+/* --- GAME MECHANICS UPGRADES (Phase 4) --- */
+
+/* Axis Visualizer HUD */
+.game-board::after {
+    content: '➝ Main Axis';
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: var(--code-font);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    font-size: 0.9em;
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.game-board.show-vertical-axis::after {
+    content: '↓ Main Axis';
+    top: 50px;
+    left: 15px;
+    /* No rotation needed if we change the icon, simpler to read */
+}
+
+/* Solved Layer (Ghost Targets) */
+.target-board {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    border: 2px solid transparent;
+    /* Match game-board border width for alignment */
+    pointer-events: none;
+    /* Styles will be copied from gameBoard via JS */
+}
+
+.target-zone {
+    /* Dimensions handled by JS or identical to .ship */
+    width: 60px;
+    height: 60px;
+    /* Match .ship */
+    border: 2px dashed rgba(0, 243, 255, 0.3);
+    background: rgba(0, 243, 255, 0.05);
+    border-radius: 8px;
+    /* Match ship radius if any, or 8px */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 1.5em;
+}
+
+/* Collision Feedback */
+.ship.docked {
+    filter: drop-shadow(0 0 15px var(--neon-green)) !important;
+    border: 1px solid var(--neon-green);
+    z-index: 50;
+    /* Bring above */
 }

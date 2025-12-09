@@ -1,6 +1,100 @@
 // Starship Command - Game Logic
 let currentLevelId = 1;
 
+const gameLevels = [
+    // --- MODULE 1: FLEX FLOW ---
+    {
+        id: 1,
+        type: 'flex',
+        title: 'Mission 1: Orientation',
+        description: 'The docking bay is on the LEFT, but the ships are on the RIGHT. Reverse the flow to bring them home.',
+        hint: 'Use `flex-direction: row-reverse`.',
+        targetCSS: 'flex-direction: row-reverse;',
+        containerStyles: { display: 'flex' },
+        wrapperSelector: '.hangar-bay',
+        ships: 3,
+        shipType: 'fa-fighter-jet',
+        validProps: ['flex-direction'], // Legacy hint support
+        validValues: ['row-reverse']    // Legacy hint support
+    },
+    {
+        id: 2,
+        type: 'flex',
+        title: 'Mission 2: The Swap',
+        description: 'We are entering a narrow canyon! Change the formation from horizontal to vertical to fit through.',
+        hint: 'Use `flex-direction: column`.',
+        targetCSS: 'flex-direction: column;',
+        containerStyles: { display: 'flex' },
+        wrapperSelector: '.hangar-bay',
+        ships: 3,
+        shipType: 'fa-fighter-jet',
+        validProps: ['flex-direction'],
+        validValues: ['column']
+    },
+    {
+        id: 3,
+        type: 'flex',
+        title: 'Mission 3: Overflow Containment',
+        description: 'Commander! We have too many fighter drones for a single line. They are shrinking! Force them to wrap to new lines.',
+        hint: 'Use `flex-wrap`.',
+        targetCSS: 'flex-wrap: wrap;',
+        containerStyles: {
+            display: 'flex',
+            width: '300px', // Constrained width forces wrapping
+            borderRight: '2px dashed red' // Visual boundary
+        },
+        wrapperSelector: '.hangar-bay',
+        ships: 8,
+        shipType: 'fa-fighter-jet',
+        validProps: ['flex-wrap'],
+        validValues: ['wrap']
+    },
+    // --- MODULE 2: ALIGNMENT ---
+    {
+        id: 4,
+        type: 'flex',
+        title: 'Mission 4: Main Axis Alignment',
+        description: 'Center the fleet within the sector using the Main Axis.',
+        hint: 'Use `justify-content` to center.',
+        targetCSS: 'justify-content: center;',
+        containerStyles: { display: 'flex' },
+        wrapperSelector: '.hangar-bay',
+        ships: 3,
+        shipType: 'fa-satellite',
+        validProps: ['justify-content'],
+        validValues: ['center']
+    },
+    {
+        id: 5,
+        type: 'flex',
+        title: 'Mission 5: Cross Axis Combo',
+        description: 'The Hero Ship needs to be perfectly centered in the view. Center it on BOTH axes.',
+        hint: 'Use both `justify-content` and `align-items`.',
+        targetCSS: 'justify-content: center; align-items: center;',
+        containerStyles: { display: 'flex', height: '100%' },
+        wrapperSelector: '.hangar-bay',
+        ships: 1,
+        shipType: 'fa-rocket',
+        validProps: ['justify-content', 'align-items'],
+        validValues: ['center']
+    },
+    // --- MODULE 3: GRID ---
+    {
+        id: 6,
+        type: 'grid',
+        title: 'Mission 6: Grid Blueprint',
+        description: 'Initialize a Grid Matrix with 3 equal columns.',
+        hint: 'Use `grid-template-columns`.',
+        targetCSS: 'display: grid; grid-template-columns: 1fr 1fr 1fr;',
+        containerStyles: { display: 'block' }, // Wait for user to enable grid or set it default flex? Guide says "Engage Grid Matrix"
+        wrapperSelector: '.sector-grid',
+        ships: 6,
+        shipType: 'fa-space-shuttle',
+        validProps: ['grid-template-columns'],
+        validValues: ['1fr 1fr 1fr', 'repeat(3, 1fr)']
+    }
+];
+
 // DOM Elements
 const missionPanel = document.getElementById('mission-panel');
 const gameBoard = document.getElementById('game-board');
@@ -25,7 +119,7 @@ function generateMissionPanel() {
     const levelSelector = document.createElement('div');
     levelSelector.className = 'level-selector';
 
-    data.gameLevels.forEach(level => {
+    gameLevels.forEach(level => {
         const btn = document.createElement('button');
         btn.className = `level-btn ${level.id === 1 ? 'active' : ''}`;
         btn.dataset.level = level.id;
@@ -69,11 +163,49 @@ function initGame() {
     generateMissionPanel();
     loadLevel(1);
     engageBtn.addEventListener('click', checkSolution);
+
+    // Live Preview & HUD Listener
+    cssInput.addEventListener('input', (e) => {
+        const code = e.target.value;
+        const normalizedCode = code.toLowerCase();
+
+        // Visual Feedback for Axis
+        if (normalizedCode.includes('column')) {
+            gameBoard.classList.add('show-vertical-axis');
+        } else {
+            gameBoard.classList.remove('show-vertical-axis');
+        }
+
+        // Live Preview (Sandbox Mode)
+        try {
+            const level = gameLevels.find(l => l.id === currentLevelId);
+            if (level) {
+                // For child levels, we'd need to target the child. 
+                // For simplicity in Sandbox, we apply to Board if it's the container level
+                if (!level.isChildLevel) {
+                    gameBoard.style.cssText = ''; // Clear previous user styles but keep base?
+                    // Re-apply base styles then user code
+                    Object.assign(gameBoard.style, level.containerStyles);
+                    gameBoard.style.cssText += code;
+                } else {
+                    // For Child Levels (like Grid Span), finding the child to update live might be tricky 
+                    // unless we query it fresh.
+                    const target = document.querySelector(level.wrapperSelector);
+                    if (target) target.style.cssText += code;
+                }
+
+                // Run collision check silently to show "Docked" status live?
+                // checkCollision(true); // Argument 'silent' to not show alert
+            }
+        } catch (err) {
+            // Ignore invalid CSS while typing
+        }
+    });
 }
 
 function loadLevel(id) {
     currentLevelId = id;
-    const level = data.gameLevels.find(l => l.id === id);
+    const level = gameLevels.find(l => l.id === id);
 
     if (!level) {
         console.error(`Level ${id} not found`);
@@ -105,71 +237,106 @@ function loadLevel(id) {
 function renderBoard(level) {
     gameBoard.style = ''; // Reset inline styles
     gameBoard.className = 'game-board'; // Reset classes
-    gameBoard.innerHTML = ''; // Clear ships
+    gameBoard.innerHTML = ''; // Clear board
 
-    // Apply base styles for the level
+    // Remove existing Target Overlay if any
+    const existingTarget = document.querySelector('.target-board');
+    if (existingTarget) existingTarget.remove();
+
+    // 1. Create Target Overlay (Ghost Board)
+    const targetBoard = document.createElement('div');
+    targetBoard.className = 'target-board'; // Basic class
+    // Copy placement styles from gameBoard (if needed) or just fill parent
+
+    // Apply Solved Styles to Target Board
+    Object.assign(targetBoard.style, level.containerStyles);
+    targetBoard.style.cssText += level.targetCSS; // Apply the solution!
+
+    // 2. Apply Base Styles to Real Board
     Object.assign(gameBoard.style, level.containerStyles);
+    // Allow 'Sandbox' feel: don't restrict styles heavily
 
-    // Create Ships
+    // 3. Render Ships AND Targets
+    const shipIcon = level.shipType || 'fa-space-shuttle';
+
     for (let i = 0; i < level.ships; i++) {
+        // --- REAL SHIP ---
         const ship = document.createElement('div');
         ship.className = 'ship';
+        ship.dataset.index = i + 1;
 
-        // Add ship classes if defined (for grid areas)
-        if (level.shipClasses && level.shipClasses[i]) {
-            ship.classList.add(level.shipClasses[i]);
+        if (level.id === 5 && i === 0) { // Legacy id check, might need update for new levels if ID changes. Level 5 is now Flex Combo.
+            // Wait, level IDs changed. Flagship logic needs to match new Level 5 or 6?
+            // Level 5 is now "Cross Axis Combo" with 1 ship. 
+            // Let's keep the special logic generic or tied to a property.
+            // But for now, let's stick to the styling logic
+            if (level.shipType === 'fa-rocket') {
+                ship.innerHTML = '<i class="fas fa-rocket"></i>';
+                ship.style.setProperty('--ship-color', '#ff00ff');
+            } else {
+                ship.innerHTML = `<i class="fas ${shipIcon}"></i>`;
+            }
+        } else {
+            ship.innerHTML = `<i class="fas ${shipIcon}"></i>`;
         }
-
-        ship.innerHTML = '<i class="fas fa-space-shuttle"></i>';
-
-        // Special styling for Level 5 Flagship
-        if (level.id === 5 && i === 0) {
-            ship.style.setProperty('--ship-color', '#ff00ff');
-            ship.innerHTML = '<i class="fas fa-rocket"></i>';
-        }
-
         gameBoard.appendChild(ship);
+
+        // --- GHOST TARGET ---
+        const target = document.createElement('div');
+        target.className = 'target-zone';
+        // Add Grid Child styles to target if this is a child-styling level
+        if (level.isChildLevel && i === 0) { // Assuming first child is target
+            target.style.cssText += level.targetCSS;
+        }
+        target.innerHTML = '<i class="fas fa-crosshairs"></i>'; // Optional icon
+        targetBoard.appendChild(target);
     }
+
+    // Insert Target Board BEFORE Game Board (so it's behind)
+    // gameBoard is in .game-board-container.
+    gameBoard.parentElement.insertBefore(targetBoard, gameBoard);
 }
 
 function checkSolution() {
-    const level = data.gameLevels.find(l => l.id === currentLevelId);
-    const userCode = cssInput.value.trim();
+    checkCollision(false);
+}
 
-    if (!userCode) {
-        logMessage("System Error: No coordinates input.", false);
-        return;
-    }
+function checkCollision(silent = false) {
+    const ships = document.querySelectorAll('.game-board .ship');
+    const targets = document.querySelectorAll('.target-board .target-zone');
+    let allDocked = true;
 
-    // 1. Apply styles to visual board to show user what happened
-    try {
-        if (level.isChildLevel) {
-            const target = document.querySelector(level.wrapperSelector);
-            if (target) target.style.cssText += userCode;
+    // Safety check
+    if (ships.length !== targets.length) return;
+
+    ships.forEach((ship, index) => {
+        const shipRect = ship.getBoundingClientRect();
+        const targetRect = targets[index].getBoundingClientRect();
+
+        // Overlap Detection
+        // Margin of error: ship center should be within target box? 
+        // Or simple intersection? Let's be generous: 50% overlap.
+
+        const overlapX = Math.max(0, Math.min(shipRect.right, targetRect.right) - Math.max(shipRect.left, targetRect.left));
+        const overlapY = Math.max(0, Math.min(shipRect.bottom, targetRect.bottom) - Math.max(shipRect.top, targetRect.top));
+        const overlapArea = overlapX * overlapY;
+        const shipArea = shipRect.width * shipRect.height;
+
+        // If > 50% of ship is inside target
+        const isDocked = (overlapArea > (shipArea * 0.5));
+
+        if (isDocked) {
+            ship.classList.add('docked');
         } else {
-            gameBoard.style.cssText += userCode;
+            allDocked = false;
+            ship.classList.remove('docked');
         }
-    } catch (e) {
-        logMessage("Syntax Error: Invalid CSS command.", false);
-        return;
-    }
+    });
 
-    // 2. Validate Logic (soft validation regex)
-    const normalizedCode = userCode.toLowerCase().replace(/\s/g, '');
-
-    let isCorrect = level.validValues.some(val =>
-        normalizedCode.includes(val.replace(/\s/g, ''))
-    );
-
-    // Hard check for property presence
-    const hasProp = level.validProps.some(prop =>
-        normalizedCode.includes(prop)
-    );
-
-    if (hasProp && isCorrect) {
-        logMessage("Systems Operational! Warp Drive Active.", true);
+    if (allDocked && !silent) {
+        logMessage("All ships docked successfully! Warp Drive Active.", true);
         successAnimation();
-    } else {
+    } else if (!silent) {
         logMessage("Alignment Mismatch: Ships are drifting.", false);
         shakeBoard();
     }
@@ -182,15 +349,21 @@ function logMessage(msg, isSuccess) {
 
 function successAnimation() {
     const ships = document.querySelectorAll('.ship');
+
+    // 1. Play Sound (Optional - see Step 5)
+    // playWarpSound(); 
+
     ships.forEach((ship, index) => {
+        // Stagger the warp for a "fleet jump" effect
         setTimeout(() => {
-            ship.style.transform = "scale(1.2) translateY(-20px)";
-            ship.style.filter = "drop-shadow(0 0 20px #fff)";
-            setTimeout(() => {
-                ship.style.transform = "none";
-                ship.style.filter = "none";
-            }, 500);
-        }, index * 100);
+            ship.style.transition = "all 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045)";
+
+            // The Warp Effect: Stretch Y, squish X, move up fast, fade out
+            ship.style.transform = "scaleX(0.5) scaleY(5) translateY(-500px)";
+            ship.style.opacity = "0";
+            ship.style.filter = "blur(4px)";
+
+        }, index * 100); // 100ms delay between each ship
     });
 }
 
