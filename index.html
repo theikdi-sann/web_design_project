@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="images/favicon.png">
     <title>CodeQuest Academy - Learn Web Dev</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,9 +18,11 @@
 
 <body>
     <header class="main-header">
-        <div class="logo">
-            <i class="fas fa-graduation-cap"></i> CodeQuest
-        </div>
+        <a href="#">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i> CodeQuest
+            </div>
+        </a>
         <nav class="desktop-nav">
             <a href="index.html" class="active">Home</a>
             <a href="lessons.html">Lessons</a>
@@ -52,37 +55,35 @@
         <section class="how-it-works" id="how-it-works-anchor">
             <h2>Your Path to Code Mastery</h2>
             <div class="steps-container">
-                <div class="step-card">
-                    <i class="fas fa-search"></i>
-                    <h3>Explore Lessons</h3>
-                    <p>
-                        Browse our categorized modules in HTML, CSS, and
-                        JavaScript.
-                    </p>
-                </div>
-                <div class="step-card">
-                    <i class="fas fa-book-open"></i>
-                    <h3>Deep Dive & Practice</h3>
-                    <p>
-                        Read detailed tutorials and follow along with code
-                        examples.
-                    </p>
-                </div>
-                <div class="step-card">
-                    <i class="fas fa-pencil-alt"></i>
-                    <h3>Test Your Skills</h3>
-                    <p>
-                        Take the interactive quizzes to solidify your
-                        understanding.
-                    </p>
-                </div>
-                <div class="step-card">
-                    <i class="fas fa-trophy"></i>
-                    <h3>Achieve Mastery</h3>
-                    <p>
-                        Track your progress and move on to advanced topics.
-                    </p>
-                </div>
+                <a href="lessons.html" class="step-card-link">
+                    <div class="step-card">
+                        <i class="fas fa-search"></i>
+                        <h3>Explore Lessons</h3>
+                        <p>
+                            Browse our categorized modules in HTML, CSS, and
+                            JavaScript.
+                        </p>
+                    </div>
+                </a>
+                <a href="quiz.html" class="step-card-link">
+                    <div class="step-card">
+                        <i class="fas fa-pencil-alt"></i>
+                        <h3>Test Your Skills</h3>
+                        <p>
+                            Take the interactive quizzes to solidify your
+                            understanding.
+                        </p>
+                    </div>
+                </a>
+                <a href="game.html" class="step-card-link">
+                    <div class="step-card">
+                        <i class="fas fa-trophy"></i>
+                        <h3>Level Up Through Play</h3>
+                        <p>
+                            Master coding concepts by playing interactive games that make learning fun and engaging.
+                        </p>
+                    </div>
+                </a>
             </div>
         </section>
 
@@ -149,7 +150,7 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script type="module" src="js/script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>

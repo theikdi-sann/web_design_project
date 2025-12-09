@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/favicon.png">
     <title>CodeQuest Academy - Lessons</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +18,11 @@
 
 <body>
     <header class="main-header">
-        <div class="logo"><i class="fas fa-graduation-cap"></i> CodeQuest</div>
+        <a href="index.html">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i> CodeQuest
+            </div>
+        </a>
         <nav class="desktop-nav">
             <a href="index.html">Home</a>
             <a href="lessons.html" class="active">Lessons</a>
@@ -42,42 +47,7 @@
         </section>
 
         <section class="lesson-categories-grid">
-
-            <div class="category-card">
-                <h2>HTML Basics</h2>
-                <ul class="lesson-list">
-                    <li><a href="#">The Document Structure</a></li>
-                    <li><a href="#">Forms and Inputs</a></li>
-                    <li><a href="#">Semantic Tags</a></li>
-                </ul>
-            </div>
-
-            <div class="category-card">
-                <h2>CSS Fundamentals</h2>
-                <ul class="lesson-list">
-                    <li><a href="#">Selectors and Specificity</a></li>
-                    <li><a href="#">The Box Model</a></li>
-                    <li><a href="#">Media Queries (Responsiveness)</a></li>
-                </ul>
-            </div>
-
-            <div class="category-card">
-                <h2>JavaScript</h2>
-                <ul class="lesson-list">
-                    <li><a href="#">Variables and Data Types</a></li>
-                    <li><a href="#">DOM Manipulation</a></li>
-                    <li><a href="#">Functions and Events</a></li>
-                </ul>
-            </div>
-
-            <div class="category-card">
-                <h2>Layout Techniques</h2>
-                <ul class="lesson-list">
-                    <li><a href="#">Flexbox Mastery</a></li>
-                    <li><a href="#">CSS Grid for Pages</a></li>
-                    <li><a href="#">Z-Index and Stacking Contexts</a></li>
-                </ul>
-            </div>
+            <!-- Dynamically generated from lessons.js -->
         </section>
 
         <section id="lesson-content-display" class="hidden">
@@ -97,7 +67,8 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script type="module" src="js/script.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/lessons.js"></script>
+    <script src="js/script.js"></script>
 </body>
-
 </html>
